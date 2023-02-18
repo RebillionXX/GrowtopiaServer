@@ -18,6 +18,7 @@ This code has been tested to compile under Ubuntu 20.04 with Visual Studio Code 
 - [ ] Players and Worlds caching
 
 # Dependencies
+you could install these by ``vcpkg`` on Windows or ``apt-get`` on Linux
  - [fmtlib - fmt](https://github.com/fmtlib/fmt)
  - [gabime - spdlog](https://github.com/gabime/spdlog) 
  - [yhirose - cpp-httplib](https://github.com/yhirose/cpp-httplib)
