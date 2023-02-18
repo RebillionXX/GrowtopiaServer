@@ -31,3 +31,6 @@ you could install these by ``vcpkg`` on Windows or ``apt-get`` on Linux
 
 # Contributing
 Feedback and pull requests are very welcome!
+
+### Contact
+Rebillion#1015 on Discord
