@@ -33,7 +33,7 @@ you could install these by ``vcpkg`` on Windows or ``apt-get`` on Linux
 Feedback and pull requests are very welcome!
 
 ## Contact
-Rebillion#1015 on Discord
+Rebillion#1015 on Discord, Happy Valentine :3
 
 ## Images
 ![Screenshot](https://iili.io/HGT1jJs.png)
