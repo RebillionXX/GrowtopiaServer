@@ -71,9 +71,6 @@ public:
     SLoginInformationRequestPacket() {
         m_packetType = NET_MESSAGE_SERVER_HELLO;
     }
-
-public:
-    std::vector<uint8_t> Pack() {}
 };
 
 /*
