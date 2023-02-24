@@ -92,7 +92,10 @@ public:
         return *this;
     }*/
 
+public:
+    std::string Get() const { return result; }
     operator std::string() { return result; }
+
 private:
     std::string GetSize(uint8_t size) const;
     std::string GetDirection(uint8_t direction) const;

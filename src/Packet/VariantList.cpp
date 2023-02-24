@@ -2,15 +2,15 @@
 #include <fmt/core.h>
 #include <ENetWrapper/Peer.hpp>
 
-Variant::Variant() : mObject() {}
-Variant::Variant(const DataType& var) : mObject({ var }) {}
+Variant::Variant() : m_object() {}
+Variant::Variant(const DataType& var) : m_object({ var }) {}
 
 template<typename T>
 T Variant::Get() const {
-    return std::get<T>(mObject);
+    return std::get<T>(m_object);
 }
 VariantType Variant::GetType() const {
-    switch (mObject.index())
+    switch (m_object.index())
     {
     case 0: return VariantType::FLOAT;
     case 1: return VariantType::STRING;
@@ -36,12 +36,12 @@ void Variant::Serialize(BinaryReader& br) {
     VariantType objType = static_cast<VariantType>(br.Read<uint8_t>());
 
     switch (objType) {
-    case VariantType::FLOAT: { mObject = DataType({ br.Read<float>() }); } break;
-    case VariantType::STRING: { mObject = DataType({ br.ReadStringU32() }); } break;
-    case VariantType::VECTOR_2: { mObject = DataType({ br.Read<CL_Vec2<float>>() }); } break;
-    case VariantType::VECTOR_3: { mObject = DataType({ br.Read<CL_Vec3<float>>() }); } break;
-    case VariantType::UNSIGNED_INT: { mObject = DataType({ br.Read<uint32_t>() }); } break;
-    case VariantType::INT: { mObject = DataType({ br.Read<int32_t>() }); } break;
+    case VariantType::FLOAT: { m_object = DataType({ br.Read<float>() }); } break;
+    case VariantType::STRING: { m_object = DataType({ br.ReadStringU32() }); } break;
+    case VariantType::VECTOR_2: { m_object = DataType({ br.Read<CL_Vec2<float>>() }); } break;
+    case VariantType::VECTOR_3: { m_object = DataType({ br.Read<CL_Vec3<float>>() }); } break;
+    case VariantType::UNSIGNED_INT: { m_object = DataType({ br.Read<uint32_t>() }); } break;
+    case VariantType::INT: { m_object = DataType({ br.Read<int32_t>() }); } break;
     default:
         break;
     }
@@ -70,28 +70,25 @@ void Variant::Pack(BinaryWriter& buffer) {
     }
 }
 
-VariantList::VariantList() : mObjects{}, executionDelay{ 0 }, netId{ -1 } {}
+VariantList::VariantList() : m_objects{}, executionDelay{ 0 }, netId{ -1 } {}
 VariantList::VariantList(uint8_t* pData) {
     BinaryReader br(pData);
     auto objectCount = br.Read<uint8_t>();
-    fmt::print("Serializing VariantList...\n");
-    fmt::print("vList -> Loading {} Objects.\n", objectCount);
     
-    mObjects.reserve(objectCount);
+    m_objects.reserve(objectCount);
     for (auto index = 0; index < objectCount; index++) {
         br.Skip(sizeof(uint8_t));
-        auto& vObject = mObjects.emplace_back();
+        auto& vObject = m_objects.emplace_back();
         vObject.Serialize(br);
-        fmt::print("vList::Object[{}] -> {}\n", index, vObject.Get<std::string>());
     }
 }
-VariantList::~VariantList() { mObjects.clear(); }
+VariantList::~VariantList() { m_objects.clear(); }
 
 std::vector<Variant> VariantList::GetObjects() const {
-    return mObjects;
+    return m_objects;
 }
 std::size_t VariantList::GetTotalObjects() const {
-    return mObjects.size();
+    return m_objects.size();
 }
 
 std::size_t VariantList::GetMemoryUsage() const {
@@ -101,17 +98,27 @@ std::size_t VariantList::GetMemoryUsage() const {
     return memoryAlloc;
 }
 
+Variant VariantList::Get(const std::size_t& index) {
+    if (index > m_objects.size() || index < 0)
+        return Variant(0);
+    return m_objects[index];
+}
+void VariantList::Set(const std::size_t& index, Variant::DataType data) {
+    if (index > m_objects.size() || index < 0)
+        return;
+    m_objects[index] = Variant({ data });
+}
 void VariantList::Insert(Variant::DataType data) {
-    mObjects.push_back({ data });
+    m_objects.push_back({ data });
 }
 uint8_t* VariantList::Pack() {
     auto memoryAlloc = this->GetMemoryUsage();
 
     BinaryWriter buffer(memoryAlloc);
-    buffer.Write<uint8_t>(mObjects.size());
-    for (auto index = 0; index < mObjects.size(); index++) {
+    buffer.Write<uint8_t>(m_objects.size());
+    for (auto index = 0; index < m_objects.size(); index++) {
         buffer.Write<uint8_t>(index);
-        mObjects[index].Pack(buffer);
+        m_objects[index].Pack(buffer);
     }
 
     uint8_t* pData = (uint8_t*)std::malloc(memoryAlloc);

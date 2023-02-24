@@ -9,14 +9,14 @@ public:
     PlayerPool() = default;
     ~PlayerPool();
 
-    std::shared_ptr<Player> NewPlayer(ENetPeer* peer);
+    Player* NewPlayer(ENetPeer* peer);
     void RemovePlayer(uint32_t connectId);
-    std::shared_ptr<Player> GetPlayer(uint32_t connectId);
+    Player* GetPlayer(uint32_t connectId);
     
 public:
-    std::unordered_map<uint32_t, std::shared_ptr<Player>> GetPlayers();
+    std::unordered_map<uint32_t, Player*> GetPlayers();
     std::size_t GetActivePlayers() const;
 
 private:
-    std::unordered_map<uint32_t, std::shared_ptr<Player>> m_players{};
+    std::unordered_map<uint32_t, Player*> m_players;
 };

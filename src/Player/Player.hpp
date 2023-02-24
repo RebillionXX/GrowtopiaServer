@@ -3,10 +3,12 @@
 #include <enet/enet.h>
 #include <ENetWrapper/Peer.hpp>
 #include <Protocol/TankInfo.hpp>
+#include <Player/DialogManager/DialogManager.hpp>
 #include <Player/PlayerItems.hpp>
 #include <Utils/TextParse.hpp>
 
-class Player : public Peer {
+class Player : public Peer,
+    public DialogManager {
 public:
     explicit Player(ENetPeer* pPeer);
     ~Player();
@@ -22,13 +24,6 @@ public:
 public:
     PlayerItems* GetItems();
     TankInfo& GetDetail();
-
-public:
-    enum class DialogType {
-        REGISTRATION
-    };
-    template <DialogType type>
-    void SendDialog(TextParse parser);
 
 public:
     void OnConnect();

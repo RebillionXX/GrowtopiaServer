@@ -1,4 +1,8 @@
 #pragma once
+#if defined(_WIN32) || defined(WIN32)
+#pragma comment(lib, "winmm.lib")
+#endif
+
 #include <thread>
 #include <string>
 #include <enet/enet.h>
@@ -44,12 +48,12 @@ namespace ENetWrapper {
             enet_packet_destroy(packet);
     }
 
-    inline void SendPacket(std::shared_ptr<Player> pAvatar, std::string data) {
+    inline void SendPacket(Player* pAvatar, std::string data) {
         auto vPacket = STextPacket(data);
         ENetWrapper::SendPacket(pAvatar->Get(), vPacket);
     }
 
-    inline void SendVariantList(std::shared_ptr<Player> pAvatar, VariantList vList) {
+    inline void SendVariantList(Player* pAvatar, VariantList vList) {
         auto vPacket = SVariantPacket(vList);
         ENetWrapper::SendPacket(pAvatar->Get(), vPacket);
         /*auto memoryAlloc = vList.GetMemoryUsage();

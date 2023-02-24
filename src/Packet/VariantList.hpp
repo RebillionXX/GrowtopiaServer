@@ -32,7 +32,7 @@ public:
     void Pack(BinaryWriter& buffer);
 
 private:
-    DataType mObject;
+    DataType m_object;
 };
 
 class VariantList {
@@ -46,6 +46,8 @@ public:
 
     std::size_t GetMemoryUsage() const;
 
+    Variant Get(const std::size_t& index);
+    void Set(const std::size_t& index, Variant::DataType data);
     void Insert(Variant::DataType data);
     uint8_t* Pack();
 
@@ -56,5 +58,5 @@ public:
     int32_t netId;   
 
 private:
-    std::vector<Variant> mObjects;
+    std::vector<Variant> m_objects;
 };

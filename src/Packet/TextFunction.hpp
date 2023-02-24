@@ -8,7 +8,7 @@
 class CAction {
 public:
     template <typename... Args>
-    static void Log(std::shared_ptr<Player> pAvatar, std::string format, Args&&... args) {
+    static void Log(Player* pAvatar, std::string format, Args&&... args) {
         TextParse parser{};
         parser.Add("action", "log");
         parser.Add("msg", fmt::vformat(format, fmt::make_format_args(args...)));

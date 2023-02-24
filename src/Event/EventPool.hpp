@@ -1,19 +1,18 @@
 #pragma once
 #include <deque>
-#include <tuple>
 #include <thread>
+#include <sigslot/signal.hpp>
+#include <Event/EventObject.hpp>
 #include <Event/EventType.hpp>
-#include <Event/EventSignal.hpp>
 
 class EventPool {
-public:
-
 public:
     void RegisterEvents();
     EventList GetEvents() const;
 
-	EventObject* GetEventIfExists(const std::string &keyName);
-    EventObject* GetEvent(const std::string &keyName);
+    void AddEvent(const std::string& keyName, void (&callable)(EventDataType));
+	EventObject* GetEventIfExists(const std::string& keyName);
+    EventObject* GetEvent(const std::string& keyName);
 
     void AddQueue(const std::string& eventName, EventArguments);
     

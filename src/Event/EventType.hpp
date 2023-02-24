@@ -1,18 +1,31 @@
 #pragma once
 #include <tuple>
-
-#define EventArguments \
-    std::shared_ptr<Player> pAvatar, \
-    std::shared_ptr<Server> pServer, \
-    std::string eventData, \
-    TextParse eventParser, \
-    TankPacketData* pTankData
+#include <sigslot/signal.hpp>
+#include <Player/Player.hpp>
+#include <Server/Server.hpp>
+#include <Packet/GameUpdatePacket.hpp>
     
-#define EventDataType \
-    std::shared_ptr<Player>, \
-    std::shared_ptr<Server>, \
-    std::string, \
-    TextParse, \
-    TankPacketData*
+#define EventArguments                  \
+    Player* pAvatar,                    \
+    std::shared_ptr<Server> pServer,    \
+    std::string eventData,              \
+    TextParse eventParser,              \
+    TankPacketData* pTankData           \
+    
+#define EventDataType                   \
+    Player*,                            \
+    std::shared_ptr<Server>,            \
+    std::string,                        \
+    TextParse,                          \
+    TankPacketData*                     \
 
-#define EventData std::pair<std::string, std::tuple<EventDataType>>
+#define EVENT(evName, fname)	                                            \
+    class fname ## {                                                        \
+    public:                                                                 \
+        static void Run(EventArguments);                                    \
+        fname ##() { GetEventPool()->AddEvent(evName, fname ##::Run); }     \
+    } fname ## _class;                                                      \
+    void fname ##::Run(EventArguments)                                      \
+
+typedef std::pair<std::string, std::tuple<EventDataType>>   EventData;
+typedef sigslot::signal<EventDataType>                      EventSignal;

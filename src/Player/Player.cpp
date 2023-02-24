@@ -3,10 +3,10 @@
 #include <Packet/PacketFactory.hpp>
 #include <Logger/Logger.hpp>
 
-Player::Player(ENetPeer* pPeer) : 
-    Peer(pPeer), 
+Player::Player(ENetPeer* peer) : Peer(peer),
+    DialogManager(peer),
     m_flags(0), m_detail() {
-    m_pItems = std::make_shared<PlayerItems>(pPeer);
+    m_pItems = std::make_shared<PlayerItems>(peer);
 }
 Player::~Player() {
     if (m_pItems)
@@ -39,16 +39,12 @@ TankInfo& Player::GetDetail() {
     return m_detail;
 }
 
-template <Player::DialogType type>
-void Player::SendDialog(TextParse parser) {
-    
-}
-
 void Player::OnConnect() {
     Logger::Print(INFO, "A player connected with IP {}, connectId {} and {} pings.", this->GetIp(), this->GetConnectId(), this->GetPing());
+    
     auto packet = SLoginInformationRequestPacket();
     ENetWrapper::SendPacket(this->Get(), packet);
 }
 void Player::OnDisconnect() {
-
+    Logger::Print(INFO, "A player disconnected with IP {}, connectId {} and {} pings.", this->GetIp(), this->GetConnectId(), this->GetPing());
 }

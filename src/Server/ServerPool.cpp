@@ -84,17 +84,20 @@ void ServerPool::ServicePoll() {
 
             switch (event.type) {
             case ENET_EVENT_TYPE_CONNECT: {
-                std::shared_ptr<Player> pAvatar{ playerPool->NewPlayer(event.peer) };
+                if (playerPool->GetPlayer(event.peer->connectID))
+                    break;
+                Player* pAvatar = playerPool->NewPlayer(event.peer);
                 pAvatar->OnConnect();
             } break;
             case ENET_EVENT_TYPE_DISCONNECT: {
-                std::shared_ptr<Player> pAvatar{ playerPool->GetPlayer(event.peer->connectID) };
+                Player* pAvatar = playerPool->GetPlayer(event.peer->connectID);
                 if (!pAvatar)
                     break;
+                pAvatar->OnDisconnect();
                 playerPool->RemovePlayer(event.peer->connectID);
             } break;
             case ENET_EVENT_TYPE_RECEIVE: {
-                std::shared_ptr<Player> pAvatar{ playerPool->GetPlayer(event.peer->connectID) };
+                Player* pAvatar = playerPool->GetPlayer(event.peer->connectID);
                 if (event.packet->dataLength < sizeof(IPacketType::m_packetType) + 1 || event.packet->dataLength > 0x400 || !pAvatar) {
                     enet_packet_destroy(event.packet);
                     break;

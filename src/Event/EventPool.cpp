@@ -1,9 +1,8 @@
 #include <Event/EventPool.hpp>
 #include <magic_enum.hpp>
 #include <Logger/Logger.hpp>
-#include <Server/ServerPool.hpp>
+#include <Server/Server.hpp>
 #include <Utils/MiscUtils.hpp>
-#include <Event/TextEvents/RequestedName.hpp>
 
 EventPool g_eventPool;
 EventPool* GetEventPool() {
@@ -12,6 +11,12 @@ EventPool* GetEventPool() {
 
 EventList EventPool::GetEvents() const {
     return m_eventData;
+}
+
+void EventPool::AddEvent(const std::string& keyName, void (&callable)(EventDataType)) {
+    EventObject* pData = new EventObject();
+    pData->sig_function.connect(callable);
+    m_eventData[keyName] = pData;
 }
 
 EventObject* EventPool::GetEventIfExists(const std::string &keyName) {
@@ -25,7 +30,7 @@ EventObject* EventPool::GetEvent(const std::string &keyName) {
 	EventObject* pData = GetEventIfExists(keyName);
 
 	if (!pData) {
-		pData = new EventObject;
+		pData = new EventObject();
 		m_eventData[keyName] = pData;
 	}
 	return pData;
@@ -37,12 +42,10 @@ void EventPool::AddQueue(const std::string& eventName, EventArguments) {
 }
 
 void EventPool::RegisterEvents() {
-    GetEvent("requestedName")->sig_function.connect(&TextEvent::OnRequestedName);
-
     Logger::Print("{} Initialized, Registered {} Events", fmt::format(fmt::emphasis::bold | fg(fmt::color::cornsilk), "Event Pool"), m_eventData.size());
 
 	std::thread t(&EventPool::ServicePoll, this);
-	this->m_serviceThread = std::move(t);
+	m_serviceThread = std::move(t);
 }
 
 void EventPool::ServicePoll() {
@@ -57,7 +60,7 @@ void EventPool::ServicePoll() {
         if (!eventFunction)
             continue;
         
-        std::shared_ptr<Player> pAvatar     = std::get<0>(tupleData);
+        Player*                 pAvatar     = std::get<0>(tupleData);
         std::shared_ptr<Server> pServer     = std::get<1>(tupleData);
         std::string             eventData   = std::get<2>(tupleData);
         TextParse               eventParser = std::get<3>(tupleData);
