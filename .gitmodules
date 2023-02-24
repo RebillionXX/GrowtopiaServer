@@ -1,3 +1,12 @@
 [submodule "libraries/cpp-httplib"]
 	path = libraries/cpp-httplib
 	url = https://github.com/yhirose/cpp-httplib.git
+[submodule "libraries/enet"]
+	path = libraries/enet
+	url = https://github.com/lsalzman/enet.git
+[submodule "libraries/magic_enum"]
+	path = libraries/magic_enum
+	url = https://github.com/Neargye/magic_enum.git
+[submodule "libraries/sigslot"]
+	path = libraries/sigslot
+	url = https://github.com/palacaze/sigslot.git
