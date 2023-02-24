@@ -1,0 +1,3 @@
+[submodule "libraries/cpp-httplib"]
+	path = libraries/cpp-httplib
+	url = https://github.com/yhirose/cpp-httplib.git
