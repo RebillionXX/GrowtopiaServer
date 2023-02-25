@@ -31,7 +31,7 @@ public:
     DialogBuilder* AddSpacer(eSizeType size = SMALL);
     DialogBuilder* SetCustomSpacing(int32_t x, int32_t y);
     DialogBuilder* AddLabel(std::string label, eDirection direction =  LEFT, eSizeType size = SMALL);
-    DialogBuilder* AddLabelWithIcom(std::string label, int32_t itemId, eDirection direction =  LEFT, eSizeType size = SMALL);
+    DialogBuilder* AddLabelWithIcon(std::string label, int32_t itemId, eDirection direction =  LEFT, eSizeType size = SMALL);
     DialogBuilder* AddCustomLabel(std::string label, std::string target, double top, double left, eSizeType size = SMALL);
     DialogBuilder* AddTextbox(std::string label);
     DialogBuilder* AddSmallText(std::string label);

@@ -1,7 +1,6 @@
 #pragma once
 #include <deque>
 #include <thread>
-#include <sigslot/signal.hpp>
 #include <Event/EventObject.hpp>
 #include <Event/EventType.hpp>
 #include <Event/ActionManager.hpp>

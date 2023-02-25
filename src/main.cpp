@@ -8,12 +8,8 @@
 #include <Event/EventPool.hpp>
 #include <Server/ServerPool.hpp>
 #include <Utils/Utils.hpp>
-#include <sqlpp11/mysql/connection.h>
 
 int main(int argc, char* argv[]) {
-    
-    sqlpp::mysql::global_library_init();
-
     std::string commandArguments{};
     for (int i = 1; i < argc; i++) commandArguments.append(std::string(argv[i]).append(" "));
 

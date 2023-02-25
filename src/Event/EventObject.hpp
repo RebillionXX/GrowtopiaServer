@@ -1,5 +1,6 @@
 #pragma once
 #include <unordered_map>
+#include <sigslot/signal.hpp>
 #include <Event/EventType.hpp>
 
 class EventObject {

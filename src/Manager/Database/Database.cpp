@@ -10,23 +10,19 @@ Database* GetDatabase() {
 
 bool Database::Connect() {
     try {
-
-/*        m_pConnection = new sqlpp::mysql::connection{ Configuration::GetMySQL() };
-        Logger::Print(INFO, "Initializing {}", fmt::format(fmt::emphasis::bold | fg(fmt::color::cornsilk), "Database"));
-        Logger::Print(" - Connection Configuration\n"
-        "  | {}: {}\n"
-        "  | {}: {}\n"
-        "  | {}: {}\n", 
-        fmt::format(fmt::emphasis::bold | fg(fmt::color::cornsilk), "Host"), m_pConnection->get_config()->host, 
-        fmt::format(fmt::emphasis::bold | fg(fmt::color::cornsilk), "User"), m_pConnection->get_config()->user,
-        fmt::format(fmt::emphasis::bold | fg(fmt::color::cornsilk), "Database"), m_pConnection->get_config()->database);
-*/
+        sqlpp::mysql::global_library_init();
+        m_pConnection = new sqlpp::mysql::connection{ Configuration::GetMySQL() };
+        Logger::Print(INFO, "Initializing {}, connecting to the server. [{} | {}]", 
+            fmt::format(fmt::emphasis::bold | fg(fmt::color::cornsilk), "Database"),
+            fmt::format(fmt::emphasis::bold | fg(fmt::color::cornsilk), "{}", m_pConnection->get_config()->user),
+        fmt::format(fmt::emphasis::bold | fg(fmt::color::cornsilk), "{}", m_pConnection->get_config()->database));
+        
         m_pPlayerTable = new PlayerTable(m_pConnection);
+        return true;
     }
-    catch (const sqlpp::exception &e) {
-        return false;
-    }
-    return true;
+    catch (const sqlpp::exception &e)   { return false; }
+    catch (...)                         { return false; }
+    return false;
 }
 
 sqlpp::mysql::connection* Database::GetConnection() {

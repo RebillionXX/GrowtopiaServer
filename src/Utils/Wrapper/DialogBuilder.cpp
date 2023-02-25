@@ -69,7 +69,7 @@ DialogBuilder* DialogBuilder::AddLabel(std::string label, eDirection direction, 
     m_result.append(fmt::format("\nadd_label|{}|{}|{}|0|", this->GetSize(size), label, this->GetDirection(direction)));
     return this;
 }
-DialogBuilder* DialogBuilder::AddLabelWithIcom(std::string label, int32_t itemId, eDirection direction, eSizeType size) {
+DialogBuilder* DialogBuilder::AddLabelWithIcon(std::string label, int32_t itemId, eDirection direction, eSizeType size) {
     m_result.append(fmt::format("\nadd_label_with_icon|{}|{}|{}|{}|", this->GetSize(size), label, this->GetDirection(direction), itemId));
     return this;
 }

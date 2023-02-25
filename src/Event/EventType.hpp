@@ -20,29 +20,29 @@
     TextParse,                          \
     TankPacketData*                     \
 
-#define EVENT(evName, fname)	                                            \
-    class fname ## {                                                        \
-    public:                                                                 \
-        static void Run(EventArguments);                                    \
-        fname ##() { GetEventPool()->AddEvent(evName, fname ##::Run); }     \
-    } fname ## _event;                                                      \
-    void fname ##::Run(EventArguments)                                      \
+#define EVENT(event, eventName)	                                                \
+    class eventName ## {                                                        \
+    public:                                                                     \
+        static void Run(EventArguments);                                        \
+        eventName() { GetEventPool()->AddEvent(event, eventName ##::Run); }     \
+    } eventName ## _event;                                                      \
+    void eventName ##::Run(EventArguments)                                      
 
-#define ACTION_EVENT(evName, fname)	                                                        \
-    class fname ## {                                                                        \
-    public:                                                                                 \
-        static void Run(EventArguments);                                                    \
-        fname ##() { GetEventPool()->ActionManager::AddEvent(evName, fname ##::Run); }      \
-    } fname ## _event;                                                                      \
-    void fname ##::Run(EventArguments)                                                      \
+#define ACTION_EVENT(event, eventName)	                                                        \
+    class eventName ## {                                                                        \
+    public:                                                                                     \
+        static void Run(EventArguments);                                                        \
+        eventName ##() { GetEventPool()->ActionManager::AddEvent(event, eventName ##::Run); }   \
+    } eventName ## _actionEvent;                                                                \
+    void eventName ##::Run(EventArguments)                                                      \
 
-#define DIALOG_EVENT(evName, fname)	                                                        \
-    class fname ## {                                                                        \
-    public:                                                                                 \
-        static void Run(EventArguments);                                                    \
-        fname ##() { GetEventPool()->DialogManager::AddEvent(evName, fname ##::Run); }      \
-    } fname ## _event;                                                                      \
-    void fname ##::Run(EventArguments)                                                      \
+#define DIALOG_EVENT(event, eventName)	                                                        \
+    class eventName ## {                                                                        \
+    public:                                                                                     \
+        static void Run(EventArguments);                                                        \
+        eventName ##() { GetEventPool()->DialogManager::AddEvent(event, eventName ##::Run); }   \
+    } eventName ## _dialogEvent;                                                                \
+    void eventName ##::Run(EventArguments)                                                      \
 
 typedef std::pair<std::string, std::tuple<EventDataType>>   EventData;
 typedef sigslot::signal<EventDataType>                      EventSignal;

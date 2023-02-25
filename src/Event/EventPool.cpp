@@ -49,8 +49,6 @@ void EventPool::AddQueue(const std::string& eventName, EventArguments) {
 }
 
 void EventPool::RegisterEvents() {
-    Logger::Print("{} Initialized, Registered {} Events", fmt::format(fmt::emphasis::bold | fg(fmt::color::cornsilk), "Event Pool"), m_data.size());
-
 	std::thread t(&EventPool::ServicePoll, this);
 	m_serviceThread = std::move(t);
 }
