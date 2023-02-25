@@ -7,17 +7,16 @@ enum eDialogTypes {
     DIALOG_TYPE_REGISTRATION
 };
 
-class DialogManager {
+class PlayerDialog {
 public:
-    DialogManager();
-    DialogManager(ENetPeer* peer);
+    PlayerDialog();
+    PlayerDialog(ENetPeer* peer);
   
 private:
     void SendData(int32_t delayMS, DialogBuilder* pData);
 
 public:
-    template <eDialogTypes eType>
-    void Send(TextParse data);
+    void Send(eDialogTypes eType, TextParse data);
     
 private:
     ENetPeer* m_pPeer;

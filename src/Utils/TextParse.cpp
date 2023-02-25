@@ -41,10 +41,7 @@ std::string TextParse::Get(const std::string& key, int index, const std::string&
     }
     return std::string{ "" };
 }
-template <typename T, typename std::enable_if_t<std::is_integral_v<T>, bool>>
-T TextParse::Get(const std::string& key, int index, const std::string& token) {
-    return std::stoi(this->Get(key, index, token));
-}
+
 template <typename T, typename std::enable_if_t<std::is_floating_point_v<T>, bool>>
 T TextParse::Get(const std::string& key, int index, const std::string& token) {
     if (std::is_same_v<T, double>)

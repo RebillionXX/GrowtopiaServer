@@ -4,7 +4,7 @@
 #include <Logger/Logger.hpp>
 
 Player::Player(ENetPeer* peer) : Peer(peer),
-    DialogManager(peer),
+    PlayerDialog(peer),
     m_flags(0), m_detail() {
     m_pItems = std::make_shared<PlayerItems>(peer);
 }

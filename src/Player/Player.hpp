@@ -3,16 +3,19 @@
 #include <enet/enet.h>
 #include <ENetWrapper/Peer.hpp>
 #include <Protocol/TankInfo.hpp>
-#include <Player/DialogManager/DialogManager.hpp>
+#include <Player/PlayerDialog/PlayerDialog.hpp>
 #include <Player/PlayerItems.hpp>
 #include <Utils/TextParse.hpp>
 
 class Player : public Peer,
-    public DialogManager {
+    public PlayerDialog {
 public:
     explicit Player(ENetPeer* pPeer);
     ~Player();
     
+    operator ENetPeer*() { 
+        return this->Get();
+    }
 public:
     bool IsFlagOn(ePlayerFlags flag) const;
     void SetFlag(ePlayerFlags flag);

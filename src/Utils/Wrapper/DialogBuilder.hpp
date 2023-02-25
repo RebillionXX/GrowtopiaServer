@@ -2,45 +2,45 @@
 #include <string>
 #include <fmt/core.h>
 
-class DialogBuilder {
-public:
-    enum eSizeType : uint8_t {
-        SMALL,
-        BIG
-    };
-    enum eDirection : uint8_t {
-        NONE,
-        LEFT,
-        RIGHT,
-        STATIC_BLUE_FRAME
-    };
+enum eSizeType : uint8_t {
+    SMALL,
+    BIG
+};
+enum eDirection : uint8_t {
+    NONE,
+    LEFT,
+    RIGHT,
+    STATIC_BLUE_FRAME
+};
 
+class DialogBuilder {
 public:
     DialogBuilder();
     ~DialogBuilder();
     
-    DialogBuilder SetDefaultColor(char color);
-    DialogBuilder TextScalingString(std::string scale);
+    DialogBuilder* SetDefaultColor(char color);
+    DialogBuilder* TextScalingString(std::string scale);
 
-    DialogBuilder EmbedData(std::string name, std::string value);
+    DialogBuilder* EmbedData(std::string name, std::string value);
     template<typename T, typename std::enable_if_t<std::is_integral_v<T>, bool> = true>
-    DialogBuilder EmbedData(std::string name, T value);
+    DialogBuilder* EmbedData(std::string name, T value);
     template<typename T, typename std::enable_if_t<std::is_floating_point_v<T>, bool> = true>
-    DialogBuilder EmbedData(std::string name, T value);
+    DialogBuilder* EmbedData(std::string name, T value);
 
-    DialogBuilder AddCustomBreak();
-    DialogBuilder AddSpacer(eSizeType size = SMALL);
-    DialogBuilder SetCustomSpacing(int32_t x, int32_t y);
-    DialogBuilder AddLabel(std::string label, eDirection direction =  LEFT, eSizeType size = SMALL);
-    DialogBuilder AddCustomLabel(std::string label, std::string target, double top, double left, eSizeType size = SMALL);
-    DialogBuilder AddTextbox(std::string label);
-    DialogBuilder AddSmallText(std::string label);
-    DialogBuilder AddTextInput(std::string name, std::string label, std::string labelInside, int32_t maxLength);
-    DialogBuilder AddTextInputPassword(std::string name, std::string label, std::string labelInside, int32_t maxLength);
-    DialogBuilder AddTextboxInput(std::string name, std::string label, std::string textInside, int32_t maxLength, int32_t lines);
-    DialogBuilder AddButton(std::string name, std::string label, std::string buttonFlag = "noflags");
+    DialogBuilder* AddCustomBreak();
+    DialogBuilder* AddSpacer(eSizeType size = SMALL);
+    DialogBuilder* SetCustomSpacing(int32_t x, int32_t y);
+    DialogBuilder* AddLabel(std::string label, eDirection direction =  LEFT, eSizeType size = SMALL);
+    DialogBuilder* AddLabelWithIcom(std::string label, int32_t itemId, eDirection direction =  LEFT, eSizeType size = SMALL);
+    DialogBuilder* AddCustomLabel(std::string label, std::string target, double top, double left, eSizeType size = SMALL);
+    DialogBuilder* AddTextbox(std::string label);
+    DialogBuilder* AddSmallText(std::string label);
+    DialogBuilder* AddTextInput(std::string name, std::string label, std::string labelInside, int32_t maxLength);
+    DialogBuilder* AddTextInputPassword(std::string name, std::string label, std::string labelInside, int32_t maxLength);
+    DialogBuilder* AddTextboxInput(std::string name, std::string label, std::string textInside, int32_t maxLength, int32_t lines);
+    DialogBuilder* AddButton(std::string name, std::string label, std::string buttonFlag = "noflags");
 
-    DialogBuilder EndDialog(std::string name, std::string cancel, std::string ok);
+    DialogBuilder* EndDialog(std::string name, std::string cancel, std::string ok);
 
     /*DialogBuilder add_button_with_icon(std::string name, std::string label, int32_t item_id, eDirection direction =  LEFT) {
         result.append(fmt::format("\nadd_button_with_icon|{}|{}|{}|{}|", name, label, this->GetDirection(direction), item_id));
@@ -93,13 +93,13 @@ public:
     }*/
 
 public:
-    std::string Get() const { return result; }
-    operator std::string() { return result; }
+    std::string Get() const { return m_result; }
+    operator std::string() { return m_result; }
 
 private:
     std::string GetSize(uint8_t size) const;
     std::string GetDirection(uint8_t direction) const;
 
 private:
-    std::string result;
+    std::string m_result;
 };

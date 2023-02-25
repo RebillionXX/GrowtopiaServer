@@ -10,3 +10,8 @@
    ╚═╝   ╚══════╝╚═╝  ╚═╝   ╚═╝       ╚══════╝  ╚═══╝  ╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝
 */
 #include <Event/TextEvents/RequestedName.hpp>
+#include <Event/TextEvents/Action.hpp>
+
+#include <Event/TextEvents/Actions/OnDialogReturn.hpp>
+
+#include <Event/Dialogs/AccountDialog.hpp>

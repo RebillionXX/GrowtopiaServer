@@ -48,14 +48,14 @@ namespace ENetWrapper {
             enet_packet_destroy(packet);
     }
 
-    inline void SendPacket(Player* pAvatar, std::string data) {
+    inline void SendPacket(ENetPeer* peer, std::string data) {
         auto vPacket = STextPacket(data);
-        ENetWrapper::SendPacket(pAvatar->Get(), vPacket);
+        ENetWrapper::SendPacket(peer, vPacket);
     }
 
-    inline void SendVariantList(Player* pAvatar, VariantList vList) {
+    inline void SendVariantList(ENetPeer* peer, VariantList vList) {
         auto vPacket = SVariantPacket(vList);
-        ENetWrapper::SendPacket(pAvatar->Get(), vPacket);
+        ENetWrapper::SendPacket(peer, vPacket);
         /*auto memoryAlloc = vList.GetMemoryUsage();
         auto memoryData = vList.Pack();
 

@@ -6,7 +6,7 @@ This code has been tested to compile under Ubuntu 20.04 with Visual Studio Code 
 ## Features
 - [x] In-Built Web Server
 - [x] Events Handler and Event Pool (easy to support more events using [sigslot](https://github.com/palacaze/sigslot) to deal with it)
-- [ ] Database (almost finished and planning to change it to PostgreSQL)
+- [ ] Database (Server, World, Player)
 - [x] Item Manager, decoding and encoding are very simple same as adding/editing items which is coming in near future.
 - [x] Easy packet management and as well as adding new packets for easier usage.
 - [ ] Account Login & Registration

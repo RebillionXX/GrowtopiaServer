@@ -8,11 +8,11 @@
 class CAction {
 public:
     template <typename... Args>
-    static void Log(Player* pAvatar, std::string format, Args&&... args) {
+    static void Log(ENetPeer* peer, std::string format, Args&&... args) {
         TextParse parser{};
         parser.Add("action", "log");
         parser.Add("msg", fmt::vformat(format, fmt::make_format_args(args...)));
         
-        ENetWrapper::SendPacket(pAvatar, parser.GetAsString());
+        ENetWrapper::SendPacket(peer, parser.GetAsString());
     }
 };

@@ -1,4 +1,5 @@
 #include <Manager/Database/Database.hpp>
+#include <config.hpp>
 #include <sqlpp11/mysql/connection.h>
 #include <Logger/Logger.hpp>
 
@@ -9,7 +10,8 @@ Database* GetDatabase() {
 
 bool Database::Connect() {
     try {
-        /*m_pConnection = new sqlpp::mysql::connection{ Configuration::GetMySQL() };
+
+/*        m_pConnection = new sqlpp::mysql::connection{ Configuration::GetMySQL() };
         Logger::Print(INFO, "Initializing {}", fmt::format(fmt::emphasis::bold | fg(fmt::color::cornsilk), "Database"));
         Logger::Print(" - Connection Configuration\n"
         "  | {}: {}\n"

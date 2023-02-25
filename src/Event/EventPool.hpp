@@ -4,8 +4,10 @@
 #include <sigslot/signal.hpp>
 #include <Event/EventObject.hpp>
 #include <Event/EventType.hpp>
+#include <Event/ActionManager.hpp>
+#include <Event/DialogManager.hpp>
 
-class EventPool {
+class EventPool : public ActionManager, public DialogManager {
 public:
     void RegisterEvents();
     EventList GetEvents() const;
@@ -20,11 +22,11 @@ private:
     void ServicePoll();
 
 public:
-    EventPool() = default;
-    ~EventPool() = default;
+    EventPool();
+    ~EventPool();
 
 private:
-    EventList m_eventData;
+    EventList m_data;
 
     std::thread m_serviceThread;
     std::deque<EventData> m_workerQueue;
