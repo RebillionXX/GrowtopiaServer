@@ -25,8 +25,8 @@ void PlayerDialog::Send(eDialogTypes eType, TextParse data) {
         db.SetDefaultColor('o')
             ->AddLabel("`wGet a GrowID!``", LEFT, BIG)
             ->AddSpacer();
-        if (data.Contain("extraMessage"))
-            db.AddTextbox(data.Get("extraMessage"))->AddSpacer();
+        if (data.Contain("extra_message"))
+            db.AddTextbox(data.Get("extra_message"))->AddSpacer();
         db.AddTextbox("By choosing a `wGrowID``, you can use a name and password to logon from any device. Your`` name`` will be shown to other players!")
             ->AddTextInput("logon", "Name ", data.Get("logon"), 18)
             ->AddSpacer()

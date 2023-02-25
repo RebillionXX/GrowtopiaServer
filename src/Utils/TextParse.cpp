@@ -1,7 +1,13 @@
 #include <Utils/TextParse.hpp>
 
 TextParse::TextParse() : m_data() {}
-TextParse::TextParse(const std::string& string) { this->Parse(string); }
+TextParse::TextParse(const std::string& string) { 
+    this->Parse(string); 
+}
+TextParse::TextParse(const std::vector<std::pair<std::string, std::string>>& data) {
+    for (auto it : data)
+        this->Add(it.first, it.second);
+}
 TextParse::~TextParse() { m_data.clear(); }
 
 std::vector<std::string> TextParse::StringTokenize(const std::string& string, const std::string& delimiter) {

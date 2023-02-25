@@ -2,19 +2,39 @@
 #include <Logger/Logger.hpp>
 #include <Event/EventType.hpp>
 #include <Event/EventPool.hpp>
+#include <Manager/Database/Database.hpp>
 #include <Packet/TextFunction.hpp>
 
 DIALOG_EVENT("growid_apply", OnDialogGrowIDApply) {
-    Logger::Print(INFO, "OnDialogGrowIDApply");
-    /*if (!eventParser.Contain("action"))
+    if (!pAvatar->GetDetail().GetTankIDName().empty())
+        return;
+    
+    PlayerTable* pTable = (PlayerTable*)GetDatabase()->GetTable(DATABASE_PLAYER_TABLE);
+    if (!pTable)
         return;
 
-    std::string eventName = eventParser.Get("action", 1);
-    auto* eventFunction = GetEventPool()->ActionManager::GetEventIfExists(eventName);
+    std::string 
+        name            = eventParser.Get("logon", 1),
+        password        = eventParser.Get("password", 1),
+        verifyPassword  = eventParser.Get("verify_password", 1)
+    ;
+    auto lowerName = name;
+    std::transform(lowerName.begin(), lowerName.end(), lowerName.begin(), ::tolower);
 
-    if (!eventFunction) {
-        CAction::Log((ENetPeer*)pAvatar, "`oUnhandled TextEvents::OnAction, eventName(`w{}``)``", eventName);
+    auto playerAccount = pTable->RegisterPlayer(name, password, verifyPassword);
+    if (playerAccount.m_result != PlayerRegistration::Result::SUCCESS) {
+        pAvatar->PlayerDialog::Send(DIALOG_TYPE_REGISTRATION, TextParse({ 
+            { "logon",              name                    }, 
+            { "password",           password                },
+            { "verify_password",    verifyPassword          },
+            { "extra_message",      playerAccount.m_data    }
+        }));
         return;
     }
-    eventFunction->sig_function(pAvatar, pServer, eventData, eventParser, pTankData);*/
+
+    auto& det = pAvatar->GetDetail();
+    det.SetTankIDName(lowerName);
+    det.SetTankIDPass(password);
+    pAvatar->SetRawName(name);
+    // Unfinished //
 }

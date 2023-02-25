@@ -41,6 +41,18 @@ namespace Utils {
         }
         return true;
     }
+    inline bool ToLowerCase(std::string& data, const bool& underscore = false) {
+        if (data.empty()) 
+            return false;
+
+        for (auto& ch : data) {
+            if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z'))
+                ch = std::tolower(ch);
+            else if (!(ch >= '0' && ch <= '9') && !(underscore && ch == '_'))
+                return false;
+        }
+        return true;
+    }
 }
 
 namespace Console {
