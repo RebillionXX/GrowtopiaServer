@@ -14,8 +14,8 @@
 #include <Player/Player.hpp>
 
 namespace ENetWrapper {  
-    inline void SendPacket(ENetPeer* pPeer, ISPacket& data) {
-        if (!pPeer) 
+    inline void SendPacket(ENetPeer* peer, ISPacket& data) {
+        if (!peer) 
             return;
         auto packetData = data.m_packetData.data();
         auto dataLength = data.m_packetLength;
@@ -31,20 +31,24 @@ namespace ENetWrapper {
             (data.m_packetType == NET_MESSAGE_GAME_MESSAGE))
             std::memcpy(packet->data + 4, packetData, dataLength);
 
-        if (enet_peer_send(pPeer, 0, packet) != 0)
+        if (enet_peer_send(peer, 0, packet) != 0)
             enet_packet_destroy(packet);
     }
-    inline void SendPacket(ENetPeer* pPeer, eNetMessageType packetType, const void* pData, uintmax_t dataLength) {
+    inline void SendPacket(ENetPeer* peer, eNetMessageType packetType, const void* pData, uintmax_t dataLength) {
+        if (!peer) 
+            return;
+
         ENetPacket* packet = enet_packet_create(nullptr, 5 + dataLength, ENET_PACKET_FLAG_RELIABLE);
         if (!packet)
             return;
+            
         std::memcpy(packet->data, &packetType, 4);
         packet->data[dataLength + 4] = 0;
         
         if (pData)
             std::memcpy(packet->data + 4, pData, dataLength);
 
-        if (enet_peer_send(pPeer, 0, packet) != 0)
+        if (enet_peer_send(peer, 0, packet) != 0)
             enet_packet_destroy(packet);
     }
 
@@ -67,6 +71,6 @@ namespace ENetWrapper {
         tankPacket->m_dataLength = static_cast<uint32_t>(memoryAlloc);
         std::memcpy(reinterpret_cast<uint8_t*>(&tankPacket->m_data), memoryData, memoryAlloc);
 
-        SendPacket(pPeer, NET_MESSAGE_GAME_PACKET, tankPacket, sizeof(TankPacketData) + tankPacket->m_dataLength); */
+        SendPacket(peer, NET_MESSAGE_GAME_PACKET, tankPacket, sizeof(TankPacketData) + tankPacket->m_dataLength); */
     }
 }

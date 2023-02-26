@@ -5,12 +5,11 @@
 
 Player::Player(ENetPeer* peer) : Peer(peer),
     PlayerDialog(peer),
-    m_flags(0), m_detail() {
-    m_pItems = std::make_shared<PlayerItems>(peer);
+    m_flags(0),
+    m_detail(), m_items(peer) { 
 }
 Player::~Player() {
-    if (m_pItems)
-        m_pItems.reset();
+    // TODO
 }
 
 bool Player::IsFlagOn(ePlayerFlags flag) const {
@@ -25,6 +24,13 @@ void Player::RemoveFlag(ePlayerFlags flag) {
     m_flags &= ~flag;
 }
 
+uint32_t Player::GetUserId() const {
+    return m_userId;
+}
+void Player::SetUserId(const uint32_t& userId) {
+    m_userId = userId;
+}
+
 std::string Player::GetRawName() const {
     return m_rawName;
 }
@@ -32,11 +38,11 @@ void Player::SetRawName(const std::string& name) {
     m_rawName = name;
 }
 
-PlayerItems* Player::GetItems() {
-    return m_pItems.get();
-}
 TankInfo& Player::GetDetail() {
     return m_detail;
+}
+PlayerItems* Player::GetItems() {
+    return &m_items;
 }
 
 void Player::OnConnect() {

@@ -8,16 +8,16 @@ PlayerItems::PlayerItems(ENetPeer* pPeer) : m_pPeer(pPeer) {
     m_skinColor = Color(0xB4, 0x8A, 0x78, 0xFF);
     m_gems = 0;
 
-    m_bpSpace = 20;
-    this->Add(ITEM_FIST, 1);
-    this->Add(ITEM_WRENCH, 1);
+    m_backpackSpace = 20;
+    this->AddItem(ITEM_FIST, 1);
+    this->AddItem(ITEM_WRENCH, 1);
 }
 
 int32_t PlayerItems::GetGems() const {
     return m_gems;
 }
-void PlayerItems::SetGems(int32_t vGems) {
-    m_gems = vGems;
+void PlayerItems::SetGems(int32_t gems) {
+    m_gems = gems;
 }
 
 uint16_t& PlayerItems::GetCloth(eClothTypes bodyPart) {
@@ -32,7 +32,7 @@ void PlayerItems::SetCloth(eClothTypes bodyPart, uint16_t itemId) {
     m_clothes[bodyPart] = itemId;
 }
 
-bool PlayerItems::Add(uint16_t itemId, uint8_t count, bool sendPacket) {
+bool PlayerItems::AddItem(uint16_t itemId, uint8_t count, bool sendPacket) {
     if (count < 1)
         return false;
     if (auto it = m_bpItems.find(itemId); it != m_bpItems.end()) {
@@ -44,7 +44,7 @@ bool PlayerItems::Add(uint16_t itemId, uint8_t count, bool sendPacket) {
         it->second += count;
     }
     else {
-        if (m_bpItems.size() >= m_bpSpace)
+        if (m_bpItems.size() >= m_backpackSpace)
             return false;
         m_bpItems.insert_or_assign(itemId, count);
     }

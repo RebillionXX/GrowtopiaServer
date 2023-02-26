@@ -21,23 +21,27 @@ public:
     void SetFlag(ePlayerFlags flag);
     void RemoveFlag(ePlayerFlags flag);
 
+    uint32_t GetUserId() const;
+    void SetUserId(const uint32_t& userId);
+
     std::string GetRawName() const;
     void SetRawName(const std::string& name);
 
 public:
-    PlayerItems* GetItems();
     TankInfo& GetDetail();
+    PlayerItems* GetItems();
 
 public:
     void OnConnect();
     void OnDisconnect();
 
 private:
-    std::shared_ptr<PlayerItems> m_pItems;
+    TankInfo m_detail;
+    PlayerItems m_items;
 
 private:
+    uint32_t m_userId;
     uint32_t m_flags;
-    TankInfo m_detail;
 
     std::string m_rawName;
     std::string m_displayName;
